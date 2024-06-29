@@ -1,4 +1,4 @@
-#include <iostream>
+#include <bits/stdc++.h>
 #include <fstream>
 using namespace std;
 class shopping
@@ -52,7 +52,6 @@ m:
 		{
 			administrator();
 		}
-
 		else
 		{
 			cout << "\n------------------------------------------------------\n";
@@ -93,8 +92,9 @@ m:
 	cout << "\n\t2] Modify the product";
 	cout << "\n\t3] Delete the product";
 	cout << "\n\t4] Back to Main Menu";
-	cout << "\n\n Please Enter your choice :\t";
+	cout << "\n\n Please Enter your choice (1/2/3/4) :\t";
 	cin >> choice;
+
 	switch (choice)
 	{
 	case 1:
@@ -133,6 +133,7 @@ m:
 	cout << "\n\t2] Go Back";
 	cout << "\n\n Please Enter your choice (1/2) :\t";
 	cin >> choice;
+
 	switch (choice)
 	{
 	case 1:
@@ -172,6 +173,7 @@ m:
 	cin >> price;
 	cout << "\n\t Discount of the product :\t";
 	cin >> dis;
+
 	data.open("Stocks.txt", ios ::in); // open in read-mode
 	if (!data)
 	{
@@ -192,6 +194,7 @@ m:
 			data >> c >> n >> p >> d;
 		}
 		data.close();
+
 		if (token > 0)
 		{
 			cout << "\n ---------------------------------------------------------------\n\n";
@@ -205,14 +208,30 @@ m:
 			data << " " << pcode << " " << pname << " " << price << " " << dis << "\n";
 			data.close();
 		}
-		cout << "\n ---------------------------------------------------------------\n\n";
-		cout << "\t\t Recorded Inserted";
-		cout << "\n\n ---------------------------------------------------------------\n\n";
 	}
-	menu();
+
+	cout << "\n ---------------------------------------------------------------\n\n";
+	cout << "\t\t Record Inserted";
+	cout << "\n\n ---------------------------------------------------------------\n\n";
+
+	char flag;
+	cout << "\t You want to Add more products (Y/N) :";
+	cin >> flag;
+
+	if (flag == 'y' || flag == 'Y')
+	{
+		goto m;
+	}
+	else
+	{
+		menu();
+	}
 }
+
 void shopping ::edit()
 {
+m:
+
 	fstream data, data1;
 	int pkey;
 	int token = 0;
@@ -271,11 +290,29 @@ void shopping ::edit()
 			cout << "\n\n ---------------------------------------------------------------\n\n";
 		}
 	}
+
+	if (token)
+	{
+		char flag;
+		cout << "\t\t You want to Edit more products (Y/N) :";
+		cin >> flag;
+
+		if (flag == 'y' || flag == 'Y')
+		{
+			goto m;
+		}
+		else
+		{
+			menu();
+		}
+	}
+
 	menu();
 }
 
 void shopping ::rem()
 {
+m:
 	fstream data, data1;
 	int pkey;
 	int token = 0;
@@ -324,6 +361,22 @@ void shopping ::rem()
 			cout << "\n\n ---------------------------------------------------------------\n\n";
 		}
 	}
+	if (token)
+	{
+		char flag;
+		cout << "\t\t You want to Delete more products (Y/N) :";
+		cin >> flag;
+
+		if (flag == 'y' || flag == 'Y')
+		{
+			goto m;
+		}
+		else
+		{
+			menu();
+		}
+	}
+
 	menu();
 }
 
@@ -455,7 +508,7 @@ m:
 
 int main()
 {
-	shopping proj;
-	proj.menu();
+	shopping Supermarket;
+	Supermarket.menu();
 	return 0;
 }
