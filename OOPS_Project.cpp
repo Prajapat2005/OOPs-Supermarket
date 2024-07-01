@@ -27,6 +27,7 @@ m:
 	int choice;
 	string email;
 	string password;
+	fstream data;
 
 	cout << "\n ---------------------------------------------------------------\n\n";
 	cout << "\t\tSupermarket Main Menu\n";
@@ -34,9 +35,10 @@ m:
 
 	cout << "\t1] Administrator\n\n";
 	cout << "\t2] Customer\n\n";
-	cout << "\t3] Exit\n\n";
+	cout << "\t3] List Products\n\n";
+	cout << "\t4] Exit\n\n";
 
-	cout << "\t Please Enter your login option (1/2/3) :\t";
+	cout << "\t Please Enter your login option (1/2/3/4) :\t";
 	cin >> choice;
 
 	switch (choice)
@@ -66,6 +68,22 @@ m:
 		break;
 
 	case 3:
+		data.open("Stocks.txt");
+
+		if (!data)
+		{
+			cout << "\n ---------------------------------------------------------------\n\n";
+			cout << "\t\t Currently no product is available!";
+			cout << "\n\n ---------------------------------------------------------------\n\n";
+		}
+		else
+		{
+			data.close();
+			list();
+		}
+		goto m;
+		break;
+	case 4:
 		cout << "\n------------------------------------------------------\n";
 		cout << "\n\t\tThank You !!\n";
 		cout << "\n------------------------------------------------------\n";
@@ -88,6 +106,7 @@ m:
 	cout << "\n ---------------------------------------------------------------\n\n";
 	cout << "\t\t	Administrator Menu";
 	cout << "\n\n ---------------------------------------------------------------\n";
+
 	cout << "\n\t1] Add the product";
 	cout << "\n\t2] Modify the product";
 	cout << "\n\t3] Delete the product";
@@ -402,10 +421,9 @@ m:
 
 	fstream data;
 
-	int arrc[100]; // array of codes
-	int arrq[100]; // array of quantity
+	vector<int> arrc; // array of codes
+	vector<int> arrq; // array of quantity
 	char choice;
-	int c = 0;
 	float amount = 0;
 	float dis = 0;
 	float total = 0;
@@ -436,14 +454,18 @@ m:
 		do
 		{
 			cout << "\n\nEnter Product code :\t";
-			cin >> arrc[c];
+			int code;
+			cin >> code;
+			arrc.push_back(code);
 			cout << "\n\nEnter the Product Quantity :\t";
-			cin >> arrq[c];
+			int quantity;
+			cin >> quantity;
+			arrq.push_back(quantity);
 			cout << "\n";
 
-			for (int i = 0; i < c; i++)
+			for (int i = 0; i < arrc.size() - 1; i++)
 			{
-				if (arrc[c] == arrc[i])
+				if (arrc[arrc.size() - 1] == arrc[i])
 				{
 					cout << "\n ---------------------------------------------------------------\n\n";
 					cout << "\t\t Duplicate Product Code. Please try again !";
@@ -452,10 +474,8 @@ m:
 				}
 			}
 
-			c++;
-
 			cout << "\n ---------------------------------------------------------------\n\n";
-			cout << "\t Do you want to buy another product ?\n\t Press 'y' if yes, else 'n' for no :\t";
+			cout << "\t Do you want to buy another product ?\n\t Press 'Y' if yes, else 'N' for no :\t";
 			cin >> choice;
 			// cout << c ;
 		} while (choice == 'y' || choice == 'Y');
@@ -465,7 +485,7 @@ m:
 		cout << "\n\t____________________________________________________________________________________\n\n";
 		// c=0 ;
 		// cout << c ;
-		for (int i = 0; i < c; i++)
+		for (int i = 0; i < arrc.size(); i++)
 		{
 			// cout << "Testing 1" ;
 			data.open("Stocks.txt", ios ::in);
@@ -479,7 +499,7 @@ m:
 				{
 					// cout << "Testing 7" ;
 					amount = price * arrq[i];
-					dis = amount - (amount * dis / 100);
+					dis = amount * (1 - dis / 100);
 					total += dis;
 
 					// cout<<"Testing 3 " ;
@@ -489,9 +509,9 @@ m:
 
 				// cout <<"Testing 5" ;
 				data >> pcode >> pname >> price >> dis;
-
-				data.close();
 			}
+
+			data.close();
 		}
 		// cout<<"Testing 6" ;
 		// data.close() ;
